@@ -1,0 +1,38 @@
+fun areSentencesSimilar(sentence1: String, sentence2: String): Boolean {
+        val char1List = sentence1.split(" ")
+        val char2List = sentence2.split(" ")
+        val len1 = char1List.size
+        val len2 = char2List.size
+        
+        //they are must be at least have the same head or the same tail, if not -> return false
+        if (char1List[0] != char2List[0] && char1List[len1-1] != char2List[len2-1]) return false
+        
+        //when they have at least the same head or tail and one of them has size 1 -> return true
+        if (len1 == 1 || len2 == 1) return true
+
+        var l1 = 0
+            var r1 = len1-1
+            var l2 = 0
+            var r2 = len2 - 1
+            while(l1 <= r1 && l2 <= r2) {    
+                var stop = true       
+                if (char1List[l1] == char2List[l2]) {
+                    l1 ++;
+                    l2 ++;
+                    stop = false
+                }
+
+                if (char1List[r1] == char2List[r2]) {
+                    r1 --;
+                    r2 --;
+                    stop = false
+                }
+                if (stop) return false
+            }
+
+            //the shorter one must have all words match head or tail of the longer one
+            //If not -> return false 
+            if ((len1 > len2 && r2 > l2) || (len2 > len1 && r1 > l1)) return false
+            
+            return true
+    }
