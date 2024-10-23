@@ -1,0 +1,36 @@
+//my submitssion
+class Solution {
+    public TreeNode replaceValueInTree(TreeNode root) {
+        Map<Integer, Integer> sumMap = new HashMap<>();
+
+        calSum(root, 0, sumMap);
+        solve(root, 0, sumMap);
+        root.val = 0;
+        return root;
+    }
+
+    public void calSum(TreeNode node, int level, Map<Integer, Integer> sumMap) {
+        if (node == null) return;
+
+        int sum = sumMap.getOrDefault(level + 1, 0);
+        sumMap.put(level + 1, sum + node.val);
+
+        calSum(node.left, level + 1, sumMap);
+        calSum(node.right, level + 1, sumMap);
+    }
+
+    public void solve(TreeNode node, int level, Map<Integer, Integer> sumMap) {
+        if (node == null) return;
+
+        int left = node.left == null ? 0 : node.left.val;
+        int right = node.right == null ? 0 : node.right.val;
+        if (node.left != null) {
+            node.left.val = sumMap.get(level + 2) - left - right;
+            solve(node.left, level + 1, sumMap);
+        }
+        if (node.right != null) {
+            node.right.val = sumMap.get(level + 2) - left - right;
+            solve(node.right, level + 1, sumMap);
+        }  
+    }
+}
