@@ -1,0 +1,28 @@
+//my 0ms Beats 100.00% submitssion
+
+class Solution {
+    public boolean flipEquiv(TreeNode root1, TreeNode root2) {
+        return solve(root1, root2);
+    }
+
+    public boolean solve(TreeNode node1, TreeNode node2) {
+        if (node1 == null) return node2 == null ? true : false;
+        if (node2 == null) return node1 == null ? true : false;
+        if (node1.val != node2.val) return false;
+
+        boolean isLeftLeft = (node1.left == null && node2.left == null) || (node1.left != null && node2.left != null && node1.left.val == node2.left.val);
+        boolean isLeftRight = (node1.left == null && node2.right == null) || (node1.left != null && node2.right != null && node1.left.val == node2.right.val);
+        boolean isRightLeft = (node1.right == null && node2.left == null) || (node1.right != null && node2.left != null && node1.right.val == node2.left.val);
+        boolean isRightRight = (node1.right == null && node2.right == null) || (node1.right != null && node2.right != null && node1.right.val == node2.right.val);
+        
+        if (isLeftLeft && isRightRight && solve(node1.left, node2.left) && solve(node1.right, node2.right)) {
+            return true;
+        }
+
+        if (isLeftRight && isRightLeft && solve(node1.left, node2.right) && solve(node1.right, node2.left)) {
+            return true;
+        }
+
+        return false;
+    }
+}
